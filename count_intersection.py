@@ -116,7 +116,7 @@ class Followers_data:
         self.calc_intersection(all_follwers_list)
         self.write_csv(all_follwers_list)
         csv_data_element = self.read_csv_data()
-        self.make_graph(csv_data_element)
+        #self.make_graph(csv_data_element)
 
 if __name__ == "__main__":
     args = sys.argv
