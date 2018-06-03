@@ -9,14 +9,13 @@ import subprocess
 import re
 
 #matplotlib inline
-import marplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
 #configure of pandas
-plt.style.use('ggplot') 
-font = {'family' : 'meiryo'}
-matplotlib.rc('font', **font)
+#plt.style.use('ggplot') 
+#font = {'family' : 'meiryo'}
+#matplotlib.rc('font', **font)
 
 #Information of Twitter API account "horiishu"
 CONSUMER_KEY = '9OMN7bmOmIgVMBcVqpZFEUFDn'
@@ -108,6 +107,7 @@ class Followers_data:
         plt.xlabel("date")
         plt.ylabel("value")
         plt.grid(True)
+        plt.show()
 
 
     def start(self, args):
