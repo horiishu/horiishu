@@ -17,11 +17,13 @@ import numpy as np
 #font = {'family' : 'meiryo'}
 #matplotlib.rc('font', **font)
 
+args = sys.argv
+
 #Information of Twitter API account "horiishu"
 CONSUMER_KEY = '9OMN7bmOmIgVMBcVqpZFEUFDn'
-CONSUMER_SECRET ='bbTmJA1EPyuFj3XPpiTAqLgIpKf4VbeStyEowWrKzdXtcbDKRy'
+CONSUMER_SECRET = args[1]
 ACCESS_TOKEN = '243028271-hNYIWiCNhS5UzdnPLzAF5UkmRnVZAx8N8alZUcrz'
-ACCESS_SECRET = 'T33eCZuJsPn4PWIYPeYkyXl8gagACN1eETCXrWGIXICLK'
+ACCESS_SECRET = args[2]
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 
@@ -36,11 +38,11 @@ class Followers_data:
 
     def make_followers_set(self, args):
         """Get followers ids list"""
-        cnt = 1
+        cnt = 3
         all_followers_list = []
 
         #Make followers ID data
-        for all_followers in args[1:len(args)]:
+        for all_followers in args[3:len(args)]:
             print("!!!start get followers data of %s !!!"%all_followers)
             followers_ids = tweepy.Cursor(api.followers_ids, id = args[cnt], cursor = -1).items()
             set_ids = set(followers_ids)
@@ -56,15 +58,15 @@ class Followers_data:
         intersection = []
         for followers_cnt in range(len(all_followers_list)):
             intersection.append(all_followers_list[0].intersection(all_followers_list[followers_cnt]))
-            print(str(date) + " "  + args[1] + " & " + args[followers_cnt + 1] +
+            print(str(date) + " "  + args[3] + " & " + args[followers_cnt + 3] +
                     " = " + str(len(intersection[followers_cnt])))
             cnt += 1
 
     def write_csv(self, all_followers_list):
         """Write followers count & date"""
-        csvfile_writer = open(args[1] + '.csv', 'a', newline='')
+        csvfile_writer = open(args[3] + '.csv', 'a', newline='')
         writer = csv.writer(csvfile_writer)
-        cnt = 1
+        cnt = 3
         for write_data in all_followers_list:
             writer.writerow([str(date) + args[cnt] + str(len(write_data))])
             cnt += 1
@@ -73,7 +75,7 @@ class Followers_data:
         """Read hisory of followers count & date"""
         csv_data_list = []
         csv_data_element = []
-        csvfile_reader = open(args[1] + '.csv')
+        csvfile_reader = open(args[3] + '.csv')
         for row in csv.reader(csvfile_reader):
             csv_data_list.append(row)
         for csv_element in csv_data_list:
@@ -87,9 +89,9 @@ class Followers_data:
         date_list = []
         follower_list = []
         
-        #correct args[1] data
+        #correct args[3] data
         for csv_list in csv_data_element:
-            if args[1] in csv_list:
+            if args[3] in csv_list:
                 args1_list.append(csv_list)
 
         #x axis date
@@ -99,8 +101,8 @@ class Followers_data:
             date_list.extend(date)
         
         #y axis account value
-        remove_str = date_ptn + args[1]
-        remove_int = 10 + len(args[1])
+        remove_str = date_ptn + args[3]
+        remove_int = 10 + len(args[3])
         for search_follower_cnt in args1_list:
             follower_cnt = re.sub(remove_str, '', search_follower_cnt)
             follower_list.append(int(follower_cnt))
@@ -111,7 +113,7 @@ class Followers_data:
         plt.xlabel("date")
         plt.ylabel("value")
         plt.grid(True)
-        plt.savefig(args[1] +"_account_value.png")
+        plt.savefig(args[3] +"_account_value.png")
 
     def output_html(self):
         """output result html"""
@@ -124,8 +126,8 @@ class Followers_data:
         <body>
         <img src='./%s_account_value.png'>
         </body></html>
-        """%(str(date),args[1]))
-        with open(str(date) + '_' + args[1] + '.html', 'wb') as file:
+        """%(str(date),args[3]))
+        with open(str(date) + '_' + args[3] + '.html', 'wb') as file:
             file.write(html.encode('utf-8'))
 
     def start(self, args):
@@ -138,9 +140,9 @@ class Followers_data:
         self.output_html()
 
 if __name__ == "__main__":
-    args = sys.argv
-    #args[0]:Main account, args[1]~:account for compare
-    if len(args) < 3:
+    #args = sys.argv
+    #args[1]:cosumer_key , args[2]:access_key
+    if len(args) < 5:
         print("!!!INPUT more than 2 account!!!")
         sys.exit()
     f_data = Followers_data()
