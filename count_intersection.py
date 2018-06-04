@@ -127,7 +127,7 @@ class Followers_data:
         <img src='./%s_account_value.png'>
         </body></html>
         """%(str(date),args[3]))
-        with open(str(date) + '_' + args[3] + '.html', 'wb') as file:
+        with open(str(date) + '_followersData_' + args[3] + '.html', 'wb') as file:
             file.write(html.encode('utf-8'))
 
     def start(self, args):
