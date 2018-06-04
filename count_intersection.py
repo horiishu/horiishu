@@ -41,7 +41,7 @@ class Followers_data:
 
         #Make followers ID data
         for all_followers in args[1:len(args)]:
-            print("!!!start get followers data of account " + str(cnt) + " !!!")
+            print("!!!start get followers data of %s !!!"%all_followers)
             followers_ids = tweepy.Cursor(api.followers_ids, id = args[cnt], cursor = -1).items()
             set_ids = set(followers_ids)
             print(args[cnt] + "'s follwer is " + str(len(set_ids)) + " !!!!!")
@@ -103,7 +103,7 @@ class Followers_data:
         remove_int = 10 + len(args[1])
         for search_follower_cnt in args1_list:
             follower_cnt = re.sub(remove_str, '', search_follower_cnt)
-            follower_list.append(follower_cnt)
+            follower_list.append(int(follower_cnt))
 
         #make graph
         plt.plot(date_list, follower_list, marker="o")
