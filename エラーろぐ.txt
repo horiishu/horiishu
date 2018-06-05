@@ -1,0 +1,109 @@
+C:\Users\thori\Desktop\project>python count_intersection.py bbTmJA1EPyuFj3XPpiTAqLgIpKf4VbeStyEowWrKzdXtcbDKRy T33eCZuJsPn4PWIYPeYkyXl8gagACN1eETCXrWGIXICLK yaritaiji0324 str_dynamo raizingu1007 aichan_nel splatoonna
+!!!start get followers data of yaritaiji0324 !!!
+yaritaiji0324's follwer is 55271 !!!!!
+!!!start get followers data of str_dynamo !!!
+str_dynamo's follwer is 47822 !!!!!
+!!!start get followers data of raizingu1007 !!!
+raizingu1007's follwer is 24522 !!!!!
+!!!start get followers data of aichan_nel !!!
+Traceback (most recent call last):
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\urllib3\connectionpool.py", line 601, in urlopen
+    chunked=chunked)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\urllib3\connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\urllib3\connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\http\client.py", line 1197, in getresponse
+    response.begin()
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\socket.py", line 575, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\ssl.py", line 929, in recv_into
+    return self.read(nbytes, buffer)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\ssl.py", line 791, in read
+    return self._sslobj.read(len, buffer)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\ssl.py", line 575, in read
+    v = self._sslobj.read(len, buffer)
+ConnectionResetError: [WinError 10054] 既存の接続はリモート ホストに強制的に切断されました。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\requests\adapters.py", line 440, in send
+    timeout=timeout
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\urllib3\connectionpool.py", line 639, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\urllib3\util\retry.py", line 357, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\urllib3\packages\six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\urllib3\connectionpool.py", line 601, in urlopen
+    chunked=chunked)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\urllib3\connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\urllib3\connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\http\client.py", line 1197, in getresponse
+    response.begin()
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\socket.py", line 575, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\ssl.py", line 929, in recv_into
+    return self.read(nbytes, buffer)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\ssl.py", line 791, in read
+    return self._sslobj.read(len, buffer)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\ssl.py", line 575, in read
+    v = self._sslobj.read(len, buffer)
+urllib3.exceptions.ProtocolError: ('Connection aborted.', ConnectionResetError(10054, '既存の接続はリモート ホストに強制的に切断されました。', None, 10054, None))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\tweepy\binder.py", line 190, in execute
+    proxies=self.api.proxy)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\requests\sessions.py", line 508, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\requests\sessions.py", line 618, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\requests\adapters.py", line 490, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(10054, '既存の接続はリモート ホストに 強制的に切断されました。', None, 10054, None))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "count_intersection.py", line 149, in <module>
+    f_data.start(args)
+  File "count_intersection.py", line 135, in start
+    all_follwers_list = self.make_followers_set(args)
+  File "count_intersection.py", line 48, in make_followers_set
+    set_ids = set(followers_ids)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\tweepy\cursor.py", line 49, in __next__
+    return self.next()
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\tweepy\cursor.py", line 197, in next
+    self.current_page = self.page_iterator.next()
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\tweepy\cursor.py", line 75, in next
+    **self.kargs)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\tweepy\binder.py", line 250, in _call
+    return method.execute()
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\tweepy\binder.py", line 192, in execute
+    six.reraise(TweepError, TweepError('Failed to send request: %s' % e), sys.exc_info()[2])
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\six.py", line 692, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\tweepy\binder.py", line 190, in execute
+    proxies=self.api.proxy)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\requests\sessions.py", line 508, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\requests\sessions.py", line 618, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\thori\AppData\Local\Programs\Python\Python35-32\lib\site-packages\requests\adapters.py", line 490, in send
+    raise ConnectionError(err, request=request)
+tweepy.error.TweepError: Failed to send request: ('Connection aborted.', ConnectionResetError(10054, '既存の接続はリモート ホストに強制的に切断されました。', None, 10054, None))

@@ -64,7 +64,7 @@ class Followers_data:
 
     def write_csv(self, all_followers_list):
         """Write followers count & date"""
-        csvfile_writer = open(args[3] + '.csv', 'a', newline='')
+        csvfile_writer = open(str(date) + '_followersData_' + args[3] + '.csv', 'a', newline='')
         writer = csv.writer(csvfile_writer)
         cnt = 3
         for write_data in all_followers_list:
@@ -75,7 +75,7 @@ class Followers_data:
         """Read hisory of followers count & date"""
         csv_data_list = []
         csv_data_element = []
-        csvfile_reader = open(args[3] + '.csv')
+        csvfile_reader = open(str(date) + '_followersData_' + args[3] + '.csv')
         for row in csv.reader(csvfile_reader):
             csv_data_list.append(row)
         for csv_element in csv_data_list:
