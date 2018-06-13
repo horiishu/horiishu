@@ -43,14 +43,32 @@ class Followers_data:
 
         #Make followers ID data
         for all_followers in args[3:len(args)]:
-            print("!!!start get followers data of %s !!!"%all_followers)
+            print("!!!start get followers data of %s !!!"%(all_followers))
+            loop_cnt = 0
+            while self.followers_ids(args[cnt]):
+                loop_cnt += 1
+                print("Error, retry getting followers data")
+                break
+                if loop_cnt == 5:
+                    print("OSHIMAI")
+                    sys.exit()
             followers_ids = tweepy.Cursor(api.followers_ids, id = args[cnt], cursor = -1).items()
-            set_ids = set(followers_ids)
+            set_ids = set(followers_ids)            
             print(args[cnt] + "'s follwer is " + str(len(set_ids)) + " !!!!!")
             all_followers_list.append(set_ids)
             cnt += 1
 
         return all_followers_list
+
+    def followers_ids(self, account):
+        tweepy_err = "tweepy.error"
+        try:
+            followers_ids = tweepy.Cursor(api.followers_ids, id = account, cursor = -1).items()
+        except tweepy.error.TweepError:
+            print('erroi')
+            return False
+
+        return followers_ids
 
     def calc_intersection(self, all_followers_list):
         """Calcration count of both followers"""
@@ -64,7 +82,7 @@ class Followers_data:
 
     def write_csv(self, all_followers_list):
         """Write followers count & date"""
-        csvfile_writer = open(str(date) + '_followersData_' + args[3] + '.csv', 'a', newline='')
+        csvfile_writer = open('followersData_' + args[3] + '.csv', 'a', newline='')
         writer = csv.writer(csvfile_writer)
         cnt = 3
         for write_data in all_followers_list:
@@ -75,7 +93,7 @@ class Followers_data:
         """Read hisory of followers count & date"""
         csv_data_list = []
         csv_data_element = []
-        csvfile_reader = open(str(date) + '_followersData_' + args[3] + '.csv')
+        csvfile_reader = open('followersData_' + args[3] + '.csv')
         for row in csv.reader(csvfile_reader):
             csv_data_list.append(row)
         for csv_element in csv_data_list:
@@ -127,7 +145,7 @@ class Followers_data:
         <img src='./%s_account_value.png'>
         </body></html>
         """%(str(date),args[3]))
-        with open(str(date) + '_followersData_' + args[3] + '.html', 'wb') as file:
+        with open('followersData_' + args[3] + '.html', 'wb') as file:
             file.write(html.encode('utf-8'))
 
     def start(self, args):
