@@ -44,31 +44,16 @@ class Followers_data:
         #Make followers ID data
         for all_followers in args[3:len(args)]:
             print("!!!start get followers data of %s !!!"%(all_followers))
-            loop_cnt = 0
-            while self.followers_ids(args[cnt]):
-                loop_cnt += 1
-                print("Error, retry getting followers data")
-                break
-                if loop_cnt == 5:
-                    print("OSHIMAI")
-                    sys.exit()
-            followers_ids = tweepy.Cursor(api.followers_ids, id = args[cnt], cursor = -1).items()
+            try:
+                followers_ids = tweepy.Cursor(api.followers_ids, id = args[cnt], cursor = -1).items()
+            except tweepy.error.TweepError:
+                print("Error detected")
             set_ids = set(followers_ids)            
             print(args[cnt] + "'s follwer is " + str(len(set_ids)) + " !!!!!")
             all_followers_list.append(set_ids)
             cnt += 1
 
         return all_followers_list
-
-    def followers_ids(self, account):
-        tweepy_err = "tweepy.error"
-        try:
-            followers_ids = tweepy.Cursor(api.followers_ids, id = account, cursor = -1).items()
-        except tweepy.error.TweepError:
-            print('erroi')
-            return False
-
-        return followers_ids
 
     def calc_intersection(self, all_followers_list):
         """Calcration count of both followers"""
