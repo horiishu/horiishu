@@ -38,8 +38,8 @@ class Followers_data:
     
     def save_csv(self):
         csvfile_writer = open(ACCOUNT_DATA_PATH + 'followersData_' + self.account_list[0] + '.csv', 'a', newline='')
-         writer = csv.writer(csvfile_writer)
-         for write_data, account_name in zip(self.followers_set, self.account_list):
+        writer = csv.writer(csvfile_writer)
+        for write_data, account_name in zip(self.followers_set, self.account_list):
             writer.writerow([str(self.date) + account_name + str(len(write_data))])
     
     def read_csv(self):
