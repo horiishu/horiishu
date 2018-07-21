@@ -4,8 +4,8 @@
 import tweepy
 import re
 
-f = open(r'/home/pi/tweepy_key.txt')
-KEYS = f.readlines()
+f = open(r'/home/tweepy_keys.txt')
+KEYS = f.read().split("\n")
 
 class TweepyAPI:
     def __init__(self):
@@ -18,15 +18,19 @@ class TweepyAPI:
         auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 
         #Make instance of API
-        api = tweepy.API(auth, wait_on_rate_limit = True)
+        self.api = tweepy.API(auth, wait_on_rate_limit = True)
 
     def get_followers(self, account_name):
         print(" ========== Start to get followers data ==========")
         try:
-            followers_ids = tweepy.Cursor(api.followers_ids, id = account_name, cursor = -1).items()
-        except tweepy.error.TweepError:
+            followers_ids = tweepy.Cursor(self.api.followers_ids, id = account_name, cursor = -1).items()
+        except:
             print("Error: Failed to get followers!")
         followers_ids = set(followers_ids)
         print(account_name + " followers value : " + str(len(followers_ids)))
 
         return followers_ids
+
+if __name__ == '__main__':
+    t = TweepyAPI()
+    t.get_followers("yaritaiji0324")

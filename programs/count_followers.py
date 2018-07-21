@@ -7,31 +7,39 @@ import subprocess
 import re
 import os
 
+from programs.base_module import BaseModule
+
 #matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
 
-ACCOUNT_DATA_PATH = r"/home/pi/archive/tweepy_data/"
+ACCOUNT_DATA_PATH = r"/home/araragi/archive/"
 
 class Followers_data(BaseModule):
     """Output followers data"""
-
     def __init__(self, account_list):
          # Use base_module construster
-        super(Followers_data, self).__init__()
-
+        super().__init__()
         self.account_list = account_list
         self.followers_set = []
         self.intersection_followers = []
         self.summary_data = []
-        self.csv_data_list
+        self.csv_data_list = []
+
+    def open(self):
+        """ open"""
+        pass
+    
+    def close(self):
+        """ close """
+        super().close()
 
     def get_followers_set(self):
         """ Get followers ids list """
         for account in self.account_list:
             followers_set_data = self.tweepy.get_followers(account)
             self.followers_set.append(followers_set_data)
-        self.summary_data.append(self.account_list[0], "N/A", str(len(self.followers_set[0])))
+        self.summary_data.append([self.account_list[0], "N/A", str(len(self.followers_set[0]))])
 
     def calc_intersection(self):
         """ get mutual followers data """
@@ -43,10 +51,10 @@ class Followers_data(BaseModule):
             else:
                 intersection_data = self.followers_set[0].intersection(followers_set)
                 self.intersection_followers.append(intersection_data)
-                self.summary_data.append(self.account_list[cnt], str(len(intersection_data)), \
-                                            str(len(self.account_list)))
+                self.summary_data.append([self.account_list[cnt], str(len(intersection_data)), \
+                                            str(len(self.account_list))])
             cnt += 1
-    
+
     def save_csv(self):
         csvfile_writer = open(ACCOUNT_DATA_PATH + 'followersData_' \
                         + self.account_list[0] + '.csv', 'a', newline='')
@@ -69,8 +77,8 @@ class Followers_data(BaseModule):
         
         #correct args[3] data
         for csv_list in self.csv_data_list:
-            if self.account_list[0] in csv_list:
-                main_account_data.append(csv_list)
+            if self.account_list[0] in csv_list[0]:
+                main_account_data.append(csv_list[0])
 
         #x axis date
         date_ptn = r"\d{4}-\d{2}-\d{2}"
@@ -97,7 +105,7 @@ class Followers_data(BaseModule):
 
     def start(self):
         """ main roop """
-        self.summary_data = ["", "Mutual num", "Total num"]
+        self.summary_data = [["", "Mutual num", "Total num"]]
         self.get_followers_set()
         self.calc_intersection()
         self.save_csv()
@@ -112,7 +120,7 @@ if __name__ == "__main__":
     #args[1]: main account , args[2]~: sub account
     ARGS = sys.argv
     
-    if ARGS < 1:
+    if len(ARGS) < 1:
         print("Error: Define main account!!!")
     
     ACCOUNTS = ARGS[1:]

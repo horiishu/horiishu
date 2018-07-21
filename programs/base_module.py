@@ -5,14 +5,14 @@ from abc import ABCMeta, abstractmethod
 import datetime
 import shutil
 import re
-from library.tweepy_api
+from library.tweepy_api import TweepyAPI
 
-FILEPATH = r"/home/pi/archive/"
+FILEPATH = r"/home/araragi/archive/"
 
 class BaseModule(metaclass=ABCMeta):
 
     def __init__(self):
-        self.date = datetime.date.today()
+        self.date = str(datetime.date.today())
         self.img = None
         self.tweepy = TweepyAPI()
 
@@ -48,10 +48,10 @@ class BaseModule(metaclass=ABCMeta):
         html_filename = self.date + "result.html"
         header = self.make_header()
         body = self.make_body()
-        footer = self.make_fooder()
+        footer = self.make_footer()
         data = header + body + footer
 
-        with open(FILEPATH, 'wb') as file:
+        with open(FILEPATH + html_filename, 'wb') as file:
             file.write(data.encode('utf-8'))
 
     def make_header(self):
@@ -67,18 +67,22 @@ class BaseModule(metaclass=ABCMeta):
         return body
 
     def data(self):
-        data = "<table border=”1″>"
-        for item_list in self.get_sumarry:
+        data = """
+                <h1> Result </h1>
+                <hr>
+                <table border=”1″>
+                """
+        for item_list in self.get_sumarry():
             data += "<tr>"
             for item in item_list:
                 data += "<td>" + item + "</td>"
-            data += "</td>"
+            data += "</tr>"
         data += "</table>"
 
-        if self.img not None:
-            img_data = []
+        if self.img:
+            img_data = ""
             for img in self.img:
-                img_data.appned(f"<img src='{img}'>")
+                img_data += "<img src='" + img + "'>"
             return data + img_data
 
         return data
