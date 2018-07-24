@@ -52,7 +52,7 @@ class Followers_data(BaseModule):
                 intersection_data = self.followers_set[0].intersection(followers_set)
                 self.intersection_followers.append(intersection_data)
                 self.summary_data.append([self.account_list[cnt], str(len(intersection_data)), \
-                                            str(len(self.account_list))])
+                                            str(len(followers_set))])
             cnt += 1
 
     def save_csv(self):
