@@ -3,8 +3,10 @@ import pyautogui
 from PIL import ImageGrab
 import time
 from logging import getLogger, Formatter, StreamHandler, INFO
+import os
 
-IMG_PATH = "src\\"
+WORKSPACE_PATH = os.path.dirname(os.path.abspath(__file__)).strip("code")
+IMG_PATH = WORKSPACE_PATH + "src\\"
 
 class ImageOperation(object):
     def open_img(self, filename):
@@ -12,6 +14,7 @@ class ImageOperation(object):
         return img
 
     def match_img(self, src_name, timeout=10, pass_rate=0.9, get_val=False):
+        print(IMG_PATH)
         src_img = self.open_img(src_name)
         img_shape = self.get_shape(src_img)
         for i in range(timeout):
