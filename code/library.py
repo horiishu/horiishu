@@ -4,7 +4,7 @@ from PIL import ImageGrab
 import time
 from logging import getLogger, Formatter, StreamHandler, INFO
 
-IMG_PATH = ".\\src\\"
+IMG_PATH = "src\\"
 
 class ImageOperation(object):
     def open_img(self, filename):
@@ -28,7 +28,7 @@ class ImageOperation(object):
                     print("center: ", end="")
                     print(c_loc)
                 return c_loc
-            time.sleep(0.7)
+            time.sleep(1)
         return False
 
     def get_shape(self, img):
