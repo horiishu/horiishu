@@ -509,6 +509,8 @@ class KanpaniGirls(object):
 
 if __name__ == '__main__':
     ARGS = sys.argv
+    print(ARGS[1])
+    print(ARGS[2])
     TARGET = ARGS[1]
     STOP_TIME = None
     if ARGS[2] != "NONE":
