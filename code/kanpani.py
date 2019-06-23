@@ -150,6 +150,10 @@ class KanpaniGirls(object):
         loc = self.image.match_img(meikyu_bottom, timeout=50)
         self.gui.click(loc)
 
+        loc = self.image.match_img(meikyu_bottom, timeout=3)
+        if loc:
+            self.gui.click(loc)
+
         self.running_meikyu = True
         time.sleep(180)
 
