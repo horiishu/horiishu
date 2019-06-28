@@ -5,8 +5,8 @@ import time
 from logging import getLogger, Formatter, StreamHandler, INFO
 import os
 
-WORKSPACE_PATH = os.path.dirname(os.path.abspath(__file__))
-IMG_PATH = WORKSPACE_PATH + "\\horiishu\\src\\"
+WORKSPACE_PATH = os.path.dirname(os.path.abspath(__file__)).strip("code")
+IMG_PATH = WORKSPACE_PATH + "src\\"
 
 class ImageOperation(object):
     def open_img(self, filename):
