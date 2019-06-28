@@ -155,7 +155,7 @@ class KanpaniGirls(object):
             self.gui.click(loc)
 
         self.running_meikyu = True
-        time.sleep(180)
+        time.sleep(150)
 
     def end_quest(self, timeout=100):
         promote = "promote.png"

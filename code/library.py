@@ -14,7 +14,6 @@ class ImageOperation(object):
         return img
 
     def match_img(self, src_name, timeout=10, pass_rate=0.9, get_val=False):
-        print(IMG_PATH)
         src_img = self.open_img(src_name)
         img_shape = self.get_shape(src_img)
         for i in range(timeout):
@@ -31,7 +30,7 @@ class ImageOperation(object):
                     print("center: ", end="")
                     print(c_loc)
                 return c_loc
-            time.sleep(1)
+            time.sleep(0.7)
         return False
 
     def get_shape(self, img):
