@@ -452,6 +452,7 @@ class KanpaniGirls(object):
         quest = misteri_dir + "misterio_quest.png"
         uub_que = misteri_dir + "uub_quest.png"
         quest_bucho = misteri_dir + "quest_bucho.png"
+        quest_kacho = misteri_dir + "quest_kacho.png"
         quest_bucho_select = misteri_dir + "quest_bucho_select.png"
 
         first_round = True
@@ -470,7 +471,7 @@ class KanpaniGirls(object):
                 loc = self.image.match_img(uub_que)
                 self.gui.click(loc)
 
-                loc = self.image.match_img(quest_bucho, timeout=2)
+                loc = self.image.match_img(quest_kacho, timeout=2)
                 if loc:
                     self.gui.click(loc)
             else:
