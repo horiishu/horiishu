@@ -504,6 +504,8 @@ class KanpaniGirls(object):
                         self.isekai()
                     pan_max_cnt += 1
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
+                    if self.stop_time == -1:
+                        sys.exit()
                 self.misterio()
             except ValueError:
                 restart_cnt += 1
