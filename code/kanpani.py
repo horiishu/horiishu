@@ -109,7 +109,7 @@ class KanpaniGirls(object):
         loc = self.image.match_img(pan_max_src, timeout=3, pass_rate=SEVER_PASS_LATE)
         return loc
 
-    def is_pan_runout(self):
+    def is_pan_runout(self, from_quest=True):
         pan_runaout = "pan_runout.png"
         cancel = "cancel.png"
 
@@ -117,11 +117,12 @@ class KanpaniGirls(object):
             loc = self.image.match_img(CLOSE)
             self.gui.click(loc)
 
-            loc = self.image.match_img(cancel)
-            self.gui.click(loc)
+            if from_quest:
+                loc = self.image.match_img(cancel)
+                self.gui.click(loc)
 
-            loc = self.image.match_img(RETURN_TOP_FROM_QUEST)
-            self.gui.click(loc)
+                loc = self.image.match_img(RETURN_TOP_FROM_QUEST)
+                self.gui.click(loc)
 
             return True
         return False
@@ -446,6 +447,98 @@ class KanpaniGirls(object):
 
         self.using_event_tickt = False
 
+    def pajapani(self):
+        pajapani_dir = "20190701_pajapani\\"
+        pajapani_icon = pajapani_dir + "pajapani.png"
+        pajapani_screen = pajapani_dir + "judge_quest_screen.png"
+        skip = pajapani_dir + "skip.png"
+        get_reword = "close.png"
+        hamushi = pajapani_dir + "hamushi.png"
+        confirm_rare = pajapani_dir + "yes.png"
+        quest_left = pajapani_dir + "quest_left.png"
+        quest_center = pajapani_dir + "quest_center.png"
+        quest_right = pajapani_dir + "quest_right.png"
+        quest_rare = pajapani_dir + "quest_rare.png"
+        accept_quest = pajapani_dir + "accept_quest.png"
+        return_top = pajapani_dir + "return_top.png"
+        hamushi = pajapani_dir + "hamushi3.png"
+        hamushi2 = pajapani_dir + "hamushi2.png"
+
+        if self.target == "LEFT":
+            run_quest = quest_left
+        elif self.target == "CENTER":
+            run_quest = quest_center
+        elif self.target == "RIGHT":
+            run_quest = quest_right
+        else:
+            self.logger.info("Unknown target")
+            run_quest = quest_center
+
+        loc = self.image.match_img(pajapani_icon)
+        self.gui.click(loc)
+
+        loc = self.image.match_img(pajapani_screen, timeout=5)
+
+        loc = self.image.match_img(skip, timeout=5)
+        if loc:
+            self.logger.info("Event  skipped")
+            self.gui.click(loc)
+
+        loc = self.image.match_img(get_reword, timeout=2)
+        if loc:
+            self.gui.click(loc)
+
+        # loc = self.image.match_img(quest_rare, timeout=3)
+        # if loc:
+        #     run_quest = quest_rare
+        #     self.logger.info("!! Rare quest !!")
+        # else:
+        # loc = self.image.match_img(hamushi, timeout=30)
+        # if loc:
+        #     self.gui.click(loc)
+        #     loc = self.image.match_img(confirm_rare, timeout=2)
+        #     self.gui.click(loc)
+        #     self.logger.info("!! Hamushi clicked !!")
+
+        cnt = 1
+        while True:
+            loc = self.image.match_img(run_quest)
+            self.gui.click(loc)
+
+            if run_quest == quest_rare and cnt == 1:
+                loc = self.image.match_img(confirm_rare)
+                self.gui.click(loc)
+
+            loc = self.image.match_img(accept_quest)
+            self.gui.click(loc)
+
+            loc = self.image.match_img(SELECT_UNIT)
+            self.gui.click(loc)
+
+            if self.is_pan_runout(from_quest=False):
+                loc = self.image.match_img(CLOSE)
+                self.gui.click(loc)
+                loc = self.image.match_img(return_top)
+                self.gui.click(loc)
+                break
+
+            time.sleep(30)
+            self.end_quest()
+
+            loc = self.image.match_img(pajapani_icon)
+            self.gui.click(loc)
+            loc = self.image.match_img(pajapani_screen, timeout=5)
+
+            loc = self.image.match_img(skip, timeout=3, pass_rate=MIDDLE_PASS_LATE)
+            if loc:
+                self.gui.click(loc)
+
+            loc = self.image.match_img(get_reword, timeout=2)
+            if loc:
+                self.gui.click(loc)
+
+            cnt += 1
+
     def misterio(self):
         misteri_dir = "misterio\\"
         open_misterio = misteri_dir + "open_misterio.png"
@@ -497,16 +590,15 @@ class KanpaniGirls(object):
         while True:
             try:
                 if not self.using_event_tickt:
-                    if self.target == "EVENT":
-                        self.round_meikyu()
-                        pass
-                    else:
+                    if self.target == "ISEKAI":
                         self.isekai()
+                    else:
+                        self.round_meikyu()
                     pan_max_cnt += 1
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
                     if self.stop_time == -1:
                         sys.exit()
-                self.misterio()
+                self.pajapani()
             except ValueError:
                 restart_cnt += 1
                 self.logger.info("RESTART: " + str(restart_cnt))
