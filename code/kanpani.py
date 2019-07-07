@@ -479,7 +479,7 @@ class KanpaniGirls(object):
 
         loc = self.image.match_img(pajapani_screen, timeout=5)
 
-        loc = self.image.match_img(skip, timeout=5)
+        loc = self.image.match_img(skip, timeout=2)
         if loc:
             self.logger.info("Event  skipped")
             self.gui.click(loc)
@@ -529,7 +529,7 @@ class KanpaniGirls(object):
             self.gui.click(loc)
             loc = self.image.match_img(pajapani_screen, timeout=5)
 
-            loc = self.image.match_img(skip, timeout=3, pass_rate=MIDDLE_PASS_LATE)
+            loc = self.image.match_img(skip, timeout=2)
             if loc:
                 self.gui.click(loc)
 
@@ -594,6 +594,7 @@ class KanpaniGirls(object):
                         self.isekai()
                     else:
                         self.round_meikyu()
+                        pass
                     pan_max_cnt += 1
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
                     if self.stop_time == -1:
