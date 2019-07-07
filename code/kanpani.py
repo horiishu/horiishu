@@ -503,6 +503,10 @@ class KanpaniGirls(object):
         cnt = 1
         while True:
             loc = self.image.match_img(run_quest)
+            if not loc:
+                loc = self.image.match_img(CLOSE)
+                self.gui.click(loc)
+                loc = self.image.match_img(run_quest)
             self.gui.click(loc)
 
             if run_quest == quest_rare and cnt == 1:
