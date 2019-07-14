@@ -463,6 +463,8 @@ class KanpaniGirls(object):
         return_top = pajapani_dir + "return_top.png"
         hamushi = pajapani_dir + "hamushi3.png"
         hamushi2 = pajapani_dir + "hamushi2.png"
+        quest_emerage = pajapani_dir + "quest_emerage.png"
+        quest_kouhan = pajapani_dir + "quest_kouhan.png"
 
         if self.target == "LEFT":
             run_quest = quest_left
@@ -471,24 +473,27 @@ class KanpaniGirls(object):
         elif self.target == "RIGHT":
             run_quest = quest_right
         else:
-            self.logger.info("Unknown target")
-            run_quest = quest_center
+            run_quest = quest_kouhan
 
         loc = self.image.match_img(pajapani_icon)
         self.gui.click(loc)
 
         loc = self.image.match_img(pajapani_screen, timeout=5)
+        if not loc:
+            loc = self.image.match_img(skip, timeout=2)
+            if loc:
+                self.logger.info("Event  skipped")
+                self.gui.click(loc)
+            loc = self.image.match_img(get_reword, timeout=2)
+            if loc:
+                self.gui.click(loc)
 
-        loc = self.image.match_img(skip, timeout=2)
-        if loc:
-            self.logger.info("Event  skipped")
-            self.gui.click(loc)
-
-        loc = self.image.match_img(get_reword, timeout=2)
-        if loc:
-            self.gui.click(loc)
-
-        # loc = self.image.match_img(quest_rare, timeout=3)
+        # loc = self.image.match_img(quest_emerage, timeout=5)
+        # if loc:
+        #     run_quest = quest_emerage
+        #     self.logger.info("!! Emerage quest !!")
+        # else:
+        # loc = self.image.match_img(quest_rare, timeout=5)
         # if loc:
         #     run_quest = quest_rare
         #     self.logger.info("!! Rare quest !!")
@@ -509,7 +514,7 @@ class KanpaniGirls(object):
                 loc = self.image.match_img(run_quest)
             self.gui.click(loc)
 
-            if run_quest == quest_rare and cnt == 1:
+            if (run_quest == quest_rare or run_quest == quest_emerage) and cnt == 1:
                 loc = self.image.match_img(confirm_rare)
                 self.gui.click(loc)
 
@@ -531,15 +536,16 @@ class KanpaniGirls(object):
 
             loc = self.image.match_img(pajapani_icon)
             self.gui.click(loc)
+
             loc = self.image.match_img(pajapani_screen, timeout=5)
+            if not loc:
+                loc = self.image.match_img(skip, timeout=2)
+                if loc:
+                    self.gui.click(loc)
 
-            loc = self.image.match_img(skip, timeout=2)
-            if loc:
-                self.gui.click(loc)
-
-            loc = self.image.match_img(get_reword, timeout=2)
-            if loc:
-                self.gui.click(loc)
+                loc = self.image.match_img(get_reword, timeout=2)
+                if loc:
+                    self.gui.click(loc)
 
             cnt += 1
 
