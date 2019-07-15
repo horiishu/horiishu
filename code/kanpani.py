@@ -236,28 +236,35 @@ class KanpaniGirls(object):
         page_down = "page_down.png"
         stare_50 = "stare_50.png"
         stare_50_selected = "stare_50_selected.png"
+        stare_45 = "stare_45.png"
+        stare_45_selected = "stare_45_selected.png"
+        stare_40 = "stare_40.png"
+        stare_40_selected = "stare_40_selected.png"
         shutugeki = "shutugeki.png"
         isekaiheiku = "isekaiheiku.png"
+
+        target_stare = stare_45
+        target_stare_selected = stare_45_selected
 
         loc = self.image.match_img(shutugekijunbi)
         self.gui.click(loc)
 
-        stare_50_loc = self.image.match_img(stare_50, timeout=2, pass_rate=SEVER_PASS_LATE)
-        if not stare_50_loc:
-            stare_50_loc = self.image.match_img(stare_50_selected, timeout=2, pass_rate=SEVER_PASS_LATE)
+        stare_loc = self.image.match_img(target_stare, timeout=2, pass_rate=SEVER_PASS_LATE)
+        if not stare_loc:
+            stare_loc = self.image.match_img(target_stare_selected, timeout=2, pass_rate=SEVER_PASS_LATE)
 
         loop_cnt = 0
-        while not stare_50_loc:
+        while not stare_loc:
             loc = self.image.match_img(page_down)
             self.gui.click(loc)
-            stare_50_loc = self.image.match_img(stare_50, timeout=2)
-            if not stare_50_loc:
-                stare_50_loc = self.image.match_img(stare_50_selected, timeout=2, pass_rate=SEVER_PASS_LATE)
+            stare_loc = self.image.match_img(target_stare, timeout=2, pass_rate=SEVER_PASS_LATE)
+            if not stare_loc:
+                stare_loc = self.image.match_img(target_stare_selected, timeout=2, pass_rate=SEVER_PASS_LATE)
             loop_cnt += 1
             if loop_cnt > 10:
                 return -1
 
-        self.gui.click(stare_50_loc)
+        self.gui.click(stare_loc)
 
         loc = self.image.match_img(shutugeki)
         self.gui.click(loc)
