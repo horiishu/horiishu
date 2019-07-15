@@ -3,6 +3,7 @@ from enum import Enum
 import time
 import sys
 import datetime
+import traceback
 
 ERR_PATH = "err\\"
 PAN_MAX_SRC = "pan_max.png"
@@ -18,6 +19,9 @@ USE_ITEM_CONFIRM = "use_item_confirm.png"
 ITEM_CLOSE = "item_close.png"
 RETURN_TOP_FROM_QUEST = "return_top_quest.png"
 BATTLE_SPEED_SLOW = "battle_speel_slow.png"
+RETURN_FROM_ISEKAI = "return_from_isekai.png"
+UNIT_3 = "unit_3.png"
+UNIT_6 = "unit_6.png"
 NOR_PASS_LATE = 0.9
 SEVER_PASS_LATE = 0.95
 MIDDLE_PASS_LATE = 0.8
@@ -127,12 +131,24 @@ class KanpaniGirls(object):
             return True
         return False
 
+    def select_unit(self, unit_img=False):
+        if unit_img:
+            loc = self.image.match_img(unit_img, timeout=2, pass_rate=SEVER_PASS_LATE)
+            if loc:
+                self.gui.click(loc)
+        loc = self.image.match_img(SELECT_UNIT)
+        self.gui.click(loc)
+
     def start_meikyu(self):
         meikyu_img = "start_meikyu.png"
         meikyu_bottom = "meikyu_bottom.png"
 
         loc = self.image.match_img(QUEST, timeout=30, pass_rate=MIDDLE_PASS_LATE)
         self.gui.click(loc)
+
+        loc = self.image.match_img(RETURN_FROM_ISEKAI, timeout=3)
+        if loc:
+            self.gui.click(loc)
 
         if not self.running_meikyu:
             loc = self.image.match_img(RETURN_QUEST_TOP, pass_rate=SEVER_PASS_LATE)
@@ -145,8 +161,7 @@ class KanpaniGirls(object):
         loc = self.image.match_img(START_QUEST)
         self.gui.click(loc)
 
-        loc = self.image.match_img(SELECT_UNIT)
-        self.gui.click(loc)
+        self.select_unit()
 
         loc = self.image.match_img(meikyu_bottom, timeout=50)
         self.gui.click(loc)
@@ -220,20 +235,36 @@ class KanpaniGirls(object):
         shutugekijunbi = "shutugekijunbi.png"
         page_down = "page_down.png"
         stare_50 = "stare_50.png"
+        stare_50_selected = "stare_50_selected.png"
         shutugeki = "shutugeki.png"
         isekaiheiku = "isekaiheiku.png"
 
         loc = self.image.match_img(shutugekijunbi)
         self.gui.click(loc)
 
-        loc = self.image.match_img(page_down)
-        self.gui.click(loc)
+        stare_50_loc = self.image.match_img(stare_50, timeout=2, pass_rate=SEVER_PASS_LATE)
+        if not stare_50_loc:
+            stare_50_loc = self.image.match_img(stare_50_selected, timeout=2, pass_rate=SEVER_PASS_LATE)
 
-        loc = self.image.match_img(stare_50)
-        self.gui.click(loc)
+        loop_cnt = 0
+        while not stare_50_loc:
+            loc = self.image.match_img(page_down)
+            self.gui.click(loc)
+            stare_50_loc = self.image.match_img(stare_50, timeout=2)
+            if not stare_50_loc:
+                stare_50_loc = self.image.match_img(stare_50_selected, timeout=2, pass_rate=SEVER_PASS_LATE)
+            loop_cnt += 1
+            if loop_cnt > 10:
+                return -1
+
+        self.gui.click(stare_50_loc)
 
         loc = self.image.match_img(shutugeki)
         self.gui.click(loc)
+
+        loc = self.image.match_img(UNIT_6, timeout=2, pass_rate=SEVER_PASS_LATE)
+        if loc:
+            self.gui.click(loc)
 
         loc = self.image.match_img(isekaiheiku)
         self.gui.click(loc)
@@ -254,7 +285,9 @@ class KanpaniGirls(object):
             if loc:
                 self.gui.click(loc)
 
-        self.prepare_isekai()
+        if self.prepare_isekai() == -1:
+            self.logger.info("prepare isekai failed")
+            raise ValueError
 
         while True:
             time.sleep(20)
@@ -359,8 +392,7 @@ class KanpaniGirls(object):
             loc = self.image.match_img(accept_quest)
             self.gui.click(loc)
 
-            loc = self.image.match_img(SELECT_UNIT)
-            self.gui.click(loc)
+            self.select_unit()
 
             if self.is_pan_runout():
                 loc = self.image.match_img(CLOSE)
@@ -436,8 +468,7 @@ class KanpaniGirls(object):
                 self.gui.click(loc)
                 break
 
-            loc = self.image.match_img(SELECT_UNIT)
-            self.gui.click(loc)
+            self.select_unit()
 
             if self.is_pan_runout():
                 break
@@ -521,8 +552,7 @@ class KanpaniGirls(object):
             loc = self.image.match_img(accept_quest)
             self.gui.click(loc)
 
-            loc = self.image.match_img(SELECT_UNIT)
-            self.gui.click(loc)
+            self.select_unit(UNIT_3)
 
             if self.is_pan_runout(from_quest=False):
                 loc = self.image.match_img(CLOSE)
@@ -584,8 +614,7 @@ class KanpaniGirls(object):
             loc = self.image.match_img(START_QUEST)
             self.gui.click(loc)
 
-            loc = self.image.match_img(SELECT_UNIT)
-            self.gui.click(loc)
+            self.select_unit()
 
             if self.is_pan_runout():
                 break
@@ -611,6 +640,7 @@ class KanpaniGirls(object):
                         sys.exit()
                 self.pajapani()
             except ValueError:
+                print(traceback.format_exc())  
                 restart_cnt += 1
                 self.logger.info("RESTART: " + str(restart_cnt))
                 filename = ERR_PATH + str(restart_cnt) + "_err_cap.png"
