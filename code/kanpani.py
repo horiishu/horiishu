@@ -143,6 +143,8 @@ class KanpaniGirls(object):
         if not loc:
             loc = self.image.match_img(food_2, timeout=3)
             if not loc:
+                loc = self.image.match_img(ITEM_CLOSE, timeout=2)
+                self.gui.click(loc)
                 return -1
         self.gui.click(loc)
 
