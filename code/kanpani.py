@@ -131,6 +131,32 @@ class KanpaniGirls(object):
             return True
         return False
 
+    def use_food(self):
+        pajapani_dir = "20190701_pajapani\\"
+        food_1 = pajapani_dir + "onigiri.png"
+        food_2 = pajapani_dir + "ramen.png"
+
+        
+        loc = self.image.match_img(ITEM)
+        self.gui.click(loc)
+        loc = self.image.match_img(food_1, timeout=3)
+        if not loc:
+            loc = self.image.match_img(food_2, timeout=3)
+            if not loc:
+                return -1
+        self.gui.click(loc)
+
+        loc = self.image.match_img(USE_ITEM, timeout=2)
+        while loc:
+            self.gui.click(loc)
+            loc = self.image.match_img(USE_ITEM_CONFIRM)
+            self.gui.click(loc)
+            loc = self.image.match_img(USE_ITEM, timeout=2)
+
+        loc = self.image.match_img(ITEM_CLOSE, timeout=2)
+        self.gui.click(loc)
+        return 0
+
     def select_unit(self, unit_img=False):
         if unit_img:
             loc = self.image.match_img(unit_img, timeout=2, pass_rate=SEVER_PASS_LATE)
@@ -236,6 +262,8 @@ class KanpaniGirls(object):
         page_down = "page_down.png"
         stare_50 = "stare_50.png"
         stare_50_selected = "stare_50_selected.png"
+        stare_49 = "stare_49.png"
+        stare_49_selected = "stare_49_selected.png"
         stare_45 = "stare_45.png"
         stare_45_selected = "stare_45_selected.png"
         stare_40 = "stare_40.png"
@@ -243,8 +271,8 @@ class KanpaniGirls(object):
         shutugeki = "shutugeki.png"
         isekaiheiku = "isekaiheiku.png"
 
-        target_stare = stare_45
-        target_stare_selected = stare_45_selected
+        target_stare = stare_49
+        target_stare_selected = stare_49_selected
 
         loc = self.image.match_img(shutugekijunbi)
         self.gui.click(loc)
@@ -315,10 +343,9 @@ class KanpaniGirls(object):
                 self.logger.info("Round count: " + str(round_cnt))
                 self.start_game()
 
-                if round_cnt >= 40:
+                if self.is_pan_max():
                     self.logger.info("Stop round isekai")
                     break
-
                 loc = self.image.match_img(QUEST, timeout=30, pass_rate=MIDDLE_PASS_LATE)
                 self.gui.click(loc)
 
@@ -633,13 +660,18 @@ class KanpaniGirls(object):
     def main(self):
         pan_max_cnt = 0
         restart_cnt = 0
+        use_food_item = True
         while True:
             try:
                 if not self.using_event_tickt:
                     if self.target == "ISEKAI":
                         self.isekai()
                     else:
-                        self.round_meikyu()
+                        if use_food_item:
+                            if self.use_food() == -1:
+                                use_food_item = False
+                        else:
+                            self.round_meikyu()
                         pass
                     pan_max_cnt += 1
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
