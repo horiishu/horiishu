@@ -22,6 +22,7 @@ BATTLE_SPEED_SLOW = "battle_speel_slow.png"
 RETURN_FROM_ISEKAI = "return_from_isekai.png"
 UNIT_3 = "unit_3.png"
 UNIT_6 = "unit_6.png"
+MAINTAINANCE = "maintainance.png"
 NOR_PASS_LATE = 0.9
 SEVER_PASS_LATE = 0.95
 MIDDLE_PASS_LATE = 0.8
@@ -105,6 +106,10 @@ class KanpaniGirls(object):
                             self.gui.click(loc_select)
                         self.end_quest(timeout=300)
                         start_game_finish = True
+                    loc_maintainance = self.image.match_img(MAINTAINANCE, timeout=2)
+                    if loc_maintainance:
+                        self.logger.info("Maintainance is proceeding, wait 30min")
+                        time.sleep(1800)
                     else:
                         self.gui.click(loc)
 
@@ -152,6 +157,8 @@ class KanpaniGirls(object):
         while loc:
             self.gui.click(loc)
             loc = self.image.match_img(USE_ITEM_CONFIRM)
+            if not loc:
+                break
             self.gui.click(loc)
             loc = self.image.match_img(USE_ITEM, timeout=2)
 
