@@ -41,6 +41,7 @@ class KanpaniGirls(object):
         self.running_isekai = False
         self.target = target
         self.stop_time = stop_time
+        self.round_cnt = 0
 
     def start_game(self, cash_crear=True, err=False):
         chrome_config = "chrome_config.png"
@@ -331,7 +332,7 @@ class KanpaniGirls(object):
         isekai_saishutugeki = "isekai_saishutugeki.png"
         isekai_all_down = "isekai_all_down.png"
 
-        round_cnt = 0
+        self.round_cnt = 0
 
         loc = self.image.match_img(QUEST, timeout=30, pass_rate=MIDDLE_PASS_LATE)
         self.gui.click(loc)
@@ -366,10 +367,10 @@ class KanpaniGirls(object):
                 self.prepare_isekai()
                 continue
 
-            round_cnt += 1
+            self.round_cnt += 1
 
-            if round_cnt % 5 == 0:
-                self.logger.info("Round count: " + str(round_cnt))
+            if self.round_cnt % 5 == 0:
+                self.logger.info("Round count: " + str(self.round_cnt))
                 self.start_game()
 
                 if self.is_pan_max():
