@@ -14,6 +14,7 @@ SELECT_UNIT = "select_unit.png"
 QUEST_RESULT = "quest_result.png"
 CLOSE = "close.png"
 ITEM = "item.png"
+ITEM_BIHIN = "item_bihin.png"
 USE_ITEM = "use_item.png"
 USE_ITEM_CONFIRM = "use_item_confirm.png"
 ITEM_CLOSE = "item_close.png"
@@ -152,6 +153,9 @@ class KanpaniGirls(object):
         
         loc = self.image.match_img(ITEM)
         self.gui.click(loc)
+        loc = self.image.match_img(ITEM_BIHIN, timeout=2)
+        if loc:
+            self.gui.click(loc)
         loc = self.image.match_img(food_1, timeout=3)
         if not loc:
             loc = self.image.match_img(food_2, timeout=3)
@@ -489,6 +493,9 @@ class KanpaniGirls(object):
             self.first_round = True
             loc = self.image.match_img(ITEM)
             self.gui.click(loc)
+            #loc = self.image.match_img(ITEM_BIHIN, timeout=2)
+            #if loc:
+            #    self.gui.click(loc)
 
             loc = self.image.match_img(shikenkaijou_tickt, timeout=5)
             if loc:
@@ -701,8 +708,8 @@ class KanpaniGirls(object):
                             if self.use_food() == -1:
                                 use_food_item = False
                         else:
-                            self.round_meikyu()
-                        pass
+                            #self.round_meikyu()
+                            pass
                     pan_max_cnt += 1
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
                     if self.stop_time == -1:
