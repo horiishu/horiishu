@@ -493,9 +493,9 @@ class KanpaniGirls(object):
             self.first_round = True
             loc = self.image.match_img(ITEM)
             self.gui.click(loc)
-            #loc = self.image.match_img(ITEM_BIHIN, timeout=2)
-            #if loc:
-            #    self.gui.click(loc)
+            loc = self.image.match_img(ITEM_BIHIN, timeout=2)
+            if loc:
+               self.gui.click(loc)
 
             loc = self.image.match_img(shikenkaijou_tickt, timeout=5)
             if loc:
@@ -708,7 +708,7 @@ class KanpaniGirls(object):
                             if self.use_food() == -1:
                                 use_food_item = False
                         else:
-                            #self.round_meikyu()
+                            self.round_meikyu()
                             pass
                     pan_max_cnt += 1
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
