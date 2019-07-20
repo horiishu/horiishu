@@ -491,12 +491,14 @@ class KanpaniGirls(object):
 
         while True:
             if (not self.using_event_tickt or
-                (self.using_event_tickt and not self.first_round)):
+               (self.using_event_tickt and not self.first_round)):
                 loc = self.image.match_img(QUEST, timeout=30, pass_rate=MIDDLE_PASS_LATE)
                 self.gui.click(loc)
 
                 if self.first_round:
-                    self.logger.info(event_is_here)
+                    loc = self.image.match_img(RETURN_FROM_ISEKAI, timeout=3)
+                    if loc:
+                        self.gui.click(loc)
                     loc = self.image.match_img(event_is_here)
                     self.gui.click(loc)
 
@@ -507,11 +509,12 @@ class KanpaniGirls(object):
             if loc:
                 self.gui.click(loc)
             else:
+                # ticket time out
                 loc = self.image.match_img(RETURN_TOP_FROM_QUEST)
                 self.gui.click(loc)
                 break
 
-            self.select_unit()
+            self.select_unit(UNIT_3)
 
             if self.is_pan_runout():
                 break
@@ -657,7 +660,7 @@ class KanpaniGirls(object):
             loc = self.image.match_img(START_QUEST)
             self.gui.click(loc)
 
-            self.select_unit()
+            self.select_unit(UNIT_3)
 
             if self.is_pan_runout():
                 break
@@ -669,7 +672,7 @@ class KanpaniGirls(object):
     def main(self):
         pan_max_cnt = 0
         restart_cnt = 0
-        use_food_item = True
+        use_food_item = False
         while True:
             try:
                 if not self.using_event_tickt:
@@ -686,7 +689,7 @@ class KanpaniGirls(object):
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
                     if self.stop_time == -1:
                         sys.exit()
-                self.pajapani()
+                self.saiyou_event()
             except ValueError:
                 print(traceback.format_exc())  
                 restart_cnt += 1
