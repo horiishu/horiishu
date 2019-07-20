@@ -54,6 +54,8 @@ class KanpaniGirls(object):
         meikyu_bottom = "meikyu_bottom.png"
         continue_isekai = "continue_isekai.png"
         isekai_saishutugeki = "isekai_saishutugeki.png"
+        quit_battle = "quit_battle.png"
+
         if cash_crear:
             loc = self.image.match_img(chrome_config, timeout=5)
             if loc:
@@ -97,6 +99,12 @@ class KanpaniGirls(object):
                             loc_saishutugeki = self.image.match_img(isekai_saishutugeki, timeout=480)
                             if loc_saishutugeki:
                                 err = False
+                            break
+                    if self.running_isekai:
+                        loc_return_isekai = self.image.match_img(quit_battle)
+                        if loc_return_isekai:
+                            self.gui.click(loc_return_isekai)
+                            start_game_finish = True
                             break
                     loc_continue = self.image.match_img(continue_quest, timeout=3)
                     if loc_continue:
@@ -317,6 +325,7 @@ class KanpaniGirls(object):
         isekai = "isekai.png"
         isekai_gekiha = "isekai_gekiha.png"
         isekai_saishutugeki = "isekai_saishutugeki.png"
+        isekai_all_down = "isekai_all_down.png"
 
         round_cnt = 0
 
@@ -343,8 +352,15 @@ class KanpaniGirls(object):
             time.sleep(60)
 
             loc = self.image.match_img(isekai_gekiha, timeout=600)
-            time.sleep(3)
-            self.gui.click(loc)
+            if loc:
+                time.sleep(3)
+                self.gui.click(loc)
+            else:
+                self.logger.info("!! All down !!")
+                loc = self.image.match_img(isekai_all_down)
+                self.start_game(return_que=True)
+                self.prepare_isekai()
+                continue
 
             round_cnt += 1
 
@@ -499,11 +515,13 @@ class KanpaniGirls(object):
                     loc = self.image.match_img(RETURN_FROM_ISEKAI, timeout=3)
                     if loc:
                         self.gui.click(loc)
-                    loc = self.image.match_img(event_is_here)
-                    self.gui.click(loc)
+                    loc = self.image.match_img(event_is_here, timeout=2)
+                    if loc:
+                        self.gui.click(loc)
 
-                    loc = self.image.match_img(event_top)
-                    self.gui.click(loc)
+                    loc = self.image.match_img(event_top, timeout=2)
+                    if loc:
+                        self.gui.click(loc)
 
             loc = self.image.match_img(START_QUEST)
             if loc:
