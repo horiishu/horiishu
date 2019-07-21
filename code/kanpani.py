@@ -332,8 +332,6 @@ class KanpaniGirls(object):
         isekai_saishutugeki = "isekai_saishutugeki.png"
         isekai_all_down = "isekai_all_down.png"
 
-        self.round_cnt = 0
-
         loc = self.image.match_img(QUEST, timeout=30, pass_rate=MIDDLE_PASS_LATE)
         self.gui.click(loc)
 
