@@ -709,7 +709,7 @@ class KanpaniGirls(object):
                             if self.use_food() == -1:
                                 use_food_item = False
                         else:
-                            self.round_meikyu()
+                            #self.round_meikyu()
                             pass
                     pan_max_cnt += 1
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
