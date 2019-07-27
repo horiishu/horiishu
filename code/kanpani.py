@@ -661,8 +661,8 @@ class KanpaniGirls(object):
         first_round = True
 
         while True:
-            if self.promote:
-                self.take_promote()
+            # if self.promote:
+            #     self.take_promote()
 
             if first_round:
                 loc = self.image.match_img(open_misterio, timeout=30)
@@ -671,12 +671,13 @@ class KanpaniGirls(object):
                 loc = self.image.match_img(quest)
                 self.gui.click(loc)
 
-                loc = self.image.match_img(uub_que)
-                self.gui.click(loc)
-
-                loc = self.image.match_img(quest_kacho, timeout=2)
+                loc = self.image.match_img(uub_que, timeout=3)
                 if loc:
                     self.gui.click(loc)
+
+                # loc = self.image.match_img(quest_kacho, timeout=2)
+                # if loc:
+                #     self.gui.click(loc)
             else:
                 loc = self.image.match_img(QUEST, timeout=30, pass_rate=MIDDLE_PASS_LATE)
                 self.gui.click(loc)
@@ -702,6 +703,7 @@ class KanpaniGirls(object):
                 if not self.using_event_tickt:
                     if self.target == "ISEKAI":
                         self.isekai()
+                        pass
                     else:
                         if use_food_item:
                             if self.use_food() == -1:
@@ -713,9 +715,9 @@ class KanpaniGirls(object):
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
                     if self.stop_time == -1:
                         sys.exit()
-                self.saiyou_event()
+                self.misterio()
             except ValueError:
-                print(traceback.format_exc())  
+                print(traceback.format_exc())
                 restart_cnt += 1
                 self.logger.info("RESTART: " + str(restart_cnt))
                 filename = ERR_PATH + str(restart_cnt) + "_err_cap.png"
