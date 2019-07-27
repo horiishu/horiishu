@@ -13,7 +13,7 @@ class ImageOperation(object):
         img = cv2.imread(IMG_PATH + filename, 0)
         return img
 
-    def match_img(self, src_name, timeout=10, pass_rate=0.9, get_val=True):
+    def match_img(self, src_name, timeout=10, pass_rate=0.9, get_val=False):
         src_img = self.open_img(src_name)
         img_shape = self.get_shape(src_img)
         #if get_val:

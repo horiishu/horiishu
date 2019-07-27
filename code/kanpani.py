@@ -671,7 +671,7 @@ class KanpaniGirls(object):
                 loc = self.image.match_img(quest)
                 self.gui.click(loc)
 
-                loc = self.image.match_img(uub_que, timeout=3)
+                loc = self.image.match_img(uub_que, timeout=8)
                 if loc:
                     self.gui.click(loc)
 
