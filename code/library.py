@@ -16,8 +16,8 @@ class ImageOperation(object):
     def match_img(self, src_name, timeout=10, pass_rate=0.9, get_val=False):
         src_img = self.open_img(src_name)
         img_shape = self.get_shape(src_img)
-        if get_val:
-            print(src_name)
+        #if get_val:
+        print(src_name)
         for i in range(timeout):
             capture = self.get_capture()
             result = cv2.matchTemplate(capture, src_img, cv2.TM_CCOEFF_NORMED)
