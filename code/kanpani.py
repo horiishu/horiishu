@@ -66,7 +66,7 @@ class KanpaniGirls(object):
                 loc = self.image.match_img(config_history, pass_rate=MIDDLE_PASS_LATE)
                 self.gui.click(loc)
 
-                loc = self.image.match_img(delete_history)
+                loc = self.image.match_img(delete_history, pass_rate=MIDDLE_PASS_LATE)
                 self.gui.click(loc)
 
                 loc = self.image.match_img(tab_kanpani_2, timeout=2)
