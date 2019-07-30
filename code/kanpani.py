@@ -59,7 +59,7 @@ class KanpaniGirls(object):
         quit_battle = "quit_battle.png"
 
         if cash_crear:
-            loc = self.image.match_img(chrome_config, timeout=5)
+            loc = self.image.match_img(chrome_config, timeout=5, pass_rate=MIDDLE_PASS_LATE)
             if loc:
                 self.gui.click(loc)
 
@@ -69,14 +69,14 @@ class KanpaniGirls(object):
                 loc = self.image.match_img(delete_history, pass_rate=MIDDLE_PASS_LATE)
                 self.gui.click(loc)
 
-                loc = self.image.match_img(tab_kanpani_2, timeout=2)
+                loc = self.image.match_img(tab_kanpani_2, timeout=2, pass_rate=MIDDLE_PASS_LATE)
                 if not loc:
-                    loc = self.image.match_img(tab_kanpani, timeout=2)
+                    loc = self.image.match_img(tab_kanpani, timeout=2, pass_rate=MIDDLE_PASS_LATE)
                 self.gui.click(loc)
 
         start_game_finish = False
         while not start_game_finish:
-            loc = self.image.match_img(browser_refresh, timeout=5)
+            loc = self.image.match_img(browser_refresh, timeout=5, pass_rate=MIDDLE_PASS_LATE)
             self.gui.click(loc)
             time.sleep(10)
             loc = self.image.match_img(start_icon, timeout=30)
