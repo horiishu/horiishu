@@ -24,6 +24,7 @@ RETURN_FROM_ISEKAI = "return_from_isekai.png"
 UNIT_3 = "unit_3.png"
 UNIT_6 = "unit_6.png"
 MAINTAINANCE = "maintainance.png"
+ITEM_PAGE_DOWN = "item_page_down.png"
 NOR_PASS_LATE = 0.9
 SEVER_PASS_LATE = 0.95
 MIDDLE_PASS_LATE = 0.8
@@ -43,7 +44,7 @@ class KanpaniGirls(object):
         self.stop_time = stop_time
         self.round_cnt = 0
 
-    def start_game(self, cash_crear=True, err=False):
+    def start_game(self, cash_crear=True, err=False, return_que=False):
         chrome_config = "chrome_config.png"
         config_history = "config_history.png"
         delete_history = "delete_history.png"
@@ -95,6 +96,13 @@ class KanpaniGirls(object):
                         time.sleep(5)
                         break
                     if err and self.running_isekai:
+                        if return_que:
+                            loc_return_que = self.image.match_img(quit_battle)
+                            self.gui.click(loc_return_que)
+                            loc = self.image.match_img(RETURN_QUEST_TOP)
+                            self.gui.click(loc)
+                            start_game_finish = True
+                            break
                         loc_isekai = self.image.match_img(continue_isekai)
                         if loc_isekai:
                             self.gui.click(loc_isekai)
@@ -224,11 +232,14 @@ class KanpaniGirls(object):
     def end_quest(self, timeout=100):
         promote = "promote.png"
         loc = self.image.match_img(QUEST_RESULT, timeout=timeout)
-        time.sleep(3)
+        time.sleep(2)
         self.gui.click(loc)
+        self.promote = bool(self.image.match_img(promote, timeout=2, pass_rate=EASE_PASS_LATE))
         time.sleep(0.3)
         self.gui.click(loc)
-        #self.promote = bool(self.image.match_img(promote, timeout=1, pass_rate=EASE_PASS_LATE))
+        time.sleep(1)
+        if not self.promote:
+            self.promote = bool(self.image.match_img(promote, timeout=1, pass_rate=EASE_PASS_LATE))
         time.sleep(1)
         for i in range(5):
             if self.image.match_img(QUEST_RESULT, timeout=1):
@@ -277,11 +288,23 @@ class KanpaniGirls(object):
             loc = self.image.match_img(confirm)
             self.gui.click(loc)
 
+            for i in range(10):
+                leona_loc = self.image.match_img(leona_pos)
+                if not leona_loc:
+                    self.gui.click(loc)
+                    time.sleep(1)
+                else:
+                    break
+
             cnt+= 1
 
     def prepare_isekai(self):
         shutugekijunbi = "shutugekijunbi.png"
         page_down = "page_down.png"
+        stare_59 = "stare_59.png"
+        stare_59_selected = "stare_59_selected.png"
+        stare_57 = "stare_57.png"
+        stare_57_selected = "stare_57_selected.png"
         stare_50 = "stare_50.png"
         stare_50_selected = "stare_50_selected.png"
         stare_49 = "stare_49.png"
@@ -293,8 +316,8 @@ class KanpaniGirls(object):
         shutugeki = "shutugeki.png"
         isekaiheiku = "isekaiheiku.png"
 
-        target_stare = stare_49
-        target_stare_selected = stare_49_selected
+        target_stare = stare_59
+        target_stare_selected = stare_59_selected
 
         loc = self.image.match_img(shutugekijunbi)
         self.gui.click(loc)
@@ -346,15 +369,14 @@ class KanpaniGirls(object):
             raise ValueError
 
         while True:
-            time.sleep(20)
-            for i in range(3):
+            time.sleep(10)
+            for i in range(2):
                 loc = self.image.match_img(BATTLE_SPEED_SLOW)
                 if loc:
-                    time.sleep(1)
+                    time.sleep(3)
                     self.gui.click(loc)
-            time.sleep(60)
 
-            loc = self.image.match_img(isekai_gekiha, timeout=600)
+            loc = self.image.match_img(isekai_gekiha, timeout=90)
             if loc:
                 time.sleep(3)
                 self.gui.click(loc)
@@ -367,7 +389,7 @@ class KanpaniGirls(object):
 
             self.round_cnt += 1
 
-            if self.round_cnt % 5 == 0:
+            if self.round_cnt % 10 == 0:
                 self.logger.info("Round count: " + str(self.round_cnt))
                 self.start_game()
 
@@ -656,6 +678,7 @@ class KanpaniGirls(object):
         uub_que = misteri_dir + "uub_quest.png"
         quest_bucho = misteri_dir + "quest_bucho.png"
         quest_kacho = misteri_dir + "quest_kacho.png"
+        quest_cho = misteri_dir + "quest_cho.png"
         quest_bucho_select = misteri_dir + "quest_bucho_select.png"
 
         first_round = True
@@ -675,9 +698,9 @@ class KanpaniGirls(object):
                 if loc:
                     self.gui.click(loc)
 
-                # loc = self.image.match_img(quest_kacho, timeout=2)
-                # if loc:
-                #     self.gui.click(loc)
+                loc = self.image.match_img(quest_cho, timeout=2)
+                if loc:
+                    self.gui.click(loc)
             else:
                 loc = self.image.match_img(QUEST, timeout=30, pass_rate=MIDDLE_PASS_LATE)
                 self.gui.click(loc)
@@ -694,6 +717,69 @@ class KanpaniGirls(object):
 
             first_round = False
 
+    def quest_saigono_shiren(self):
+        ichiryu_shacho_dir = "ichiryu_shacho\\"
+        event_quest = ichiryu_shacho_dir + "event_quest.png"
+        quest_main = ichiryu_shacho_dir + "quest_main.png"
+        quest_5sho = ichiryu_shacho_dir + "quest_5sho.png"
+        bottle = "bottle.png"
+        first_round = True
+        use_bottle = True
+        while True:
+            if self.promote:
+                self.take_promote()
+            if not use_bottle:
+                loc = self.image.match_img(ITEM)
+                self.gui.click(loc)
+                loc = self.image.match_img(ITEM_BIHIN, timeout=2)
+                if loc:
+                    self.gui.click(loc)
+
+                loc = self.image.match_img(bottle, timeout=5)
+                if loc:
+                    self.gui.click(loc)
+                else:
+                    loc = self.image.match_img(ITEM_PAGE_DOWN, timeout=5)
+                    self.gui.click(loc)
+                    loc = self.image.match_img(bottle, timeout=5)
+                    if loc:
+                        self.gui.click(loc)
+
+                loc = self.image.match_img(USE_ITEM, timeout=3)
+                if loc:
+                    self.gui.click(loc)
+
+                    loc = self.image.match_img(USE_ITEM_CONFIRM)
+                    self.gui.click(loc)
+                loc = self.image.match_img(ITEM_CLOSE, timeout=2)
+                self.gui.click(loc)
+                use_bottle = True
+            loc = self.image.match_img(QUEST, timeout=30, pass_rate=MIDDLE_PASS_LATE)
+            self.gui.click(loc)
+            if first_round:
+                loc = self.image.match_img(RETURN_QUEST_TOP, pass_rate=SEVER_PASS_LATE)
+                if loc:
+                    self.gui.click(loc)
+                loc = self.image.match_img(quest_main, timeout=2)
+                if loc:
+                    self.gui.click(loc)
+                else:
+                    loc = self.image.match_img(quest_5sho)
+                    self.gui.click(loc)
+                first_round = False
+            loc = self.image.match_img(START_QUEST)
+            self.gui.click(loc)
+            self.select_unit()
+            time.sleep(30)
+            self.end_quest()
+            self.round_cnt += 1
+            if self.round_cnt % 10 == 0:
+                self.logger.info("ROUND: " + str(self.round_cnt))
+                # if self.is_pan_max():
+                #     break
+            #if self.round_cnt % 40 == 0:
+            #    use_bottle = False
+
     def main(self):
         pan_max_cnt = 0
         restart_cnt = 0
@@ -704,6 +790,8 @@ class KanpaniGirls(object):
                     if self.target == "ISEKAI":
                         self.isekai()
                         pass
+                    elif self.target == "SUBEVENT":
+                        self.quest_saigono_shiren()
                     else:
                         if use_food_item:
                             if self.use_food() == -1:
@@ -715,7 +803,7 @@ class KanpaniGirls(object):
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
                     if self.stop_time == -1:
                         sys.exit()
-                self.misterio()
+                self.saiyou_event()
             except ValueError:
                 print(traceback.format_exc())
                 restart_cnt += 1
