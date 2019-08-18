@@ -718,7 +718,7 @@ class KanpaniGirls(object):
         #     run_quest = quest_emerage
         #     self.logger.info("!! Emerage quest !!")
         # else:
-        loc = self.image.match_img(quest_rare, timeout=5)
+        loc = self.image.match_img(quest_rare, timeout=5, pass_rate=0.99, get_val=True)
         if loc:
             run_quest = quest_rare
             self.logger.info("!! Rare quest !!")
