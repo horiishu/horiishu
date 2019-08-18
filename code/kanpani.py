@@ -718,17 +718,17 @@ class KanpaniGirls(object):
         #     run_quest = quest_emerage
         #     self.logger.info("!! Emerage quest !!")
         # else:
-        # loc = self.image.match_img(quest_rare, timeout=5)
-        # if loc:
-        #     run_quest = quest_rare
-        #     self.logger.info("!! Rare quest !!")
-        # else:
-        loc = self.image.match_img(hamushi, timeout=20)
+        loc = self.image.match_img(quest_rare, timeout=5)
         if loc:
-            self.gui.click(loc)
-            loc = self.image.match_img(confirm_rare, timeout=2)
-            self.gui.click(loc)
-            self.logger.info("!! Hamushi clicked !!")
+            run_quest = quest_rare
+            self.logger.info("!! Rare quest !!")
+        else:
+            loc = self.image.match_img(hamushi, timeout=20)
+            if loc:
+                self.gui.click(loc)
+                loc = self.image.match_img(confirm_rare, timeout=2)
+                self.gui.click(loc)
+                self.logger.info("!! Hamushi clicked !!")
 
         cnt = 1
         while True:
@@ -899,7 +899,7 @@ class KanpaniGirls(object):
                             if self.use_food() == -1:
                                 use_food_item = False
                         else:
-                            #self.round_meikyu()
+                            self.round_meikyu()
                             pass
                     pan_max_cnt += 1
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
