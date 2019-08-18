@@ -56,7 +56,7 @@ class KanpaniGirls(object):
         continue_quest = "continue_quest.png"
         meikyu_bottom = "meikyu_bottom.png"
         continue_isekai = "continue_isekai.png"
-        isekai_saishutugeki = "isekai_saishutugeki.png"
+        isekai_saishutugeki = "isekai\\isekai_saishutugeki.png"
         quit_battle = "quit_battle.png"
 
         if cash_crear:
@@ -299,22 +299,23 @@ class KanpaniGirls(object):
             cnt+= 1
 
     def prepare_isekai(self):
-        shutugekijunbi = "shutugekijunbi.png"
-        page_down = "page_down.png"
-        stare_59 = "stare_59.png"
-        stare_59_selected = "stare_59_selected.png"
-        stare_57 = "stare_57.png"
-        stare_57_selected = "stare_57_selected.png"
-        stare_50 = "stare_50.png"
-        stare_50_selected = "stare_50_selected.png"
-        stare_49 = "stare_49.png"
-        stare_49_selected = "stare_49_selected.png"
-        stare_45 = "stare_45.png"
-        stare_45_selected = "stare_45_selected.png"
-        stare_40 = "stare_40.png"
-        stare_40_selected = "stare_40_selected.png"
-        shutugeki = "shutugeki.png"
-        isekaiheiku = "isekaiheiku.png"
+        isekai_dir = "isekai\\"
+        shutugekijunbi = isekai_dir + "shutugekijunbi.png"
+        page_down = isekai_dir + "page_down.png"
+        stare_59 = isekai_dir + "stare_59.png"
+        stare_59_selected = isekai_dir + "stare_59_selected.png"
+        stare_57 = isekai_dir + "stare_57.png"
+        stare_57_selected = isekai_dir + "stare_57_selected.png"
+        stare_50 = isekai_dir + "stare_50.png"
+        stare_50_selected = isekai_dir + "stare_50_selected.png"
+        stare_49 = isekai_dir + "stare_49.png"
+        stare_49_selected = isekai_dir + "stare_49_selected.png"
+        stare_45 = isekai_dir + "stare_45.png"
+        stare_45_selected = isekai_dir + "stare_45_selected.png"
+        stare_40 = isekai_dir + "stare_40.png"
+        stare_40_selected = isekai_dir + "stare_40_selected.png"
+        shutugeki = isekai_dir + "shutugeki.png"
+        isekaiheiku = isekai_dir + "isekaiheiku.png"
 
         target_stare = stare_59
         target_stare_selected = stare_59_selected
@@ -325,11 +326,11 @@ class KanpaniGirls(object):
         stare_loc = self.image.match_img(target_stare, timeout=2, pass_rate=SEVER_PASS_LATE)
         if not stare_loc:
             stare_loc = self.image.match_img(target_stare_selected, timeout=2, pass_rate=SEVER_PASS_LATE)
+        down_loc = self.image.match_img(page_down)
 
         loop_cnt = 0
         while not stare_loc:
-            loc = self.image.match_img(page_down)
-            self.gui.click(loc)
+            self.gui.click(down_loc)
             stare_loc = self.image.match_img(target_stare, timeout=2, pass_rate=SEVER_PASS_LATE)
             if not stare_loc:
                 stare_loc = self.image.match_img(target_stare_selected, timeout=2, pass_rate=SEVER_PASS_LATE)
@@ -350,10 +351,11 @@ class KanpaniGirls(object):
         self.gui.click(loc)
 
     def isekai(self):
-        isekai = "isekai.png"
-        isekai_gekiha = "isekai_gekiha.png"
-        isekai_saishutugeki = "isekai_saishutugeki.png"
-        isekai_all_down = "isekai_all_down.png"
+        isekai_dir = "isekai\\"
+        isekai = isekai_dir + "isekai.png"
+        isekai_gekiha = isekai_dir + "isekai_gekiha.png"
+        isekai_saishutugeki = isekai_dir + "isekai_saishutugeki.png"
+        isekai_all_down = isekai_dir + "isekai_all_down.png"
 
         loc = self.image.match_img(QUEST, timeout=30, pass_rate=MIDDLE_PASS_LATE)
         self.gui.click(loc)
@@ -671,6 +673,106 @@ class KanpaniGirls(object):
 
             cnt += 1
 
+    def natsupani_2(self):
+        natsupani_dir = "20190818_natsupani_2\\"
+        natsupani_icon = natsupani_dir + "natsupani_2.png"
+        natsupani_screen = natsupani_dir + "judge_quest_screen.png"
+        skip = natsupani_dir + "skip.png"
+        get_reword = "close.png"
+        hamushi = natsupani_dir + "hamushi.png"
+        confirm_rare = natsupani_dir + "yes.png"
+        quest_left = natsupani_dir + "quest_left.png"
+        quest_center = natsupani_dir + "quest_center.png"
+        quest_right = natsupani_dir + "quest_right.png"
+        quest_rare = natsupani_dir + "quest_rare.png"
+        accept_quest = natsupani_dir + "accept_quest.png"
+        return_top = natsupani_dir + "return_top.png"
+        hamushi2 = natsupani_dir + "hamushi2.png"
+        quest_emerage = natsupani_dir + "quest_emerage.png"
+        quest_kouhan = natsupani_dir + "quest_kouhan.png"
+
+        if self.target == "LEFT":
+            run_quest = quest_left
+        elif self.target == "CENTER":
+            run_quest = quest_center
+        elif self.target == "RIGHT":
+            run_quest = quest_right
+        else:
+            run_quest = quest_kouhan
+
+        loc = self.image.match_img(natsupani_icon)
+        self.gui.click(loc)
+
+        loc = self.image.match_img(natsupani_screen, timeout=5)
+        if not loc:
+            loc = self.image.match_img(skip, timeout=2)
+            if loc:
+                self.logger.info("Event  skipped")
+                self.gui.click(loc)
+            loc = self.image.match_img(get_reword, timeout=2)
+            if loc:
+                self.gui.click(loc)
+
+        # loc = self.image.match_img(quest_emerage, timeout=5)
+        # if loc:
+        #     run_quest = quest_emerage
+        #     self.logger.info("!! Emerage quest !!")
+        # else:
+        # loc = self.image.match_img(quest_rare, timeout=5)
+        # if loc:
+        #     run_quest = quest_rare
+        #     self.logger.info("!! Rare quest !!")
+        # else:
+        loc = self.image.match_img(hamushi, timeout=20)
+        if loc:
+            self.gui.click(loc)
+            loc = self.image.match_img(confirm_rare, timeout=2)
+            self.gui.click(loc)
+            self.logger.info("!! Hamushi clicked !!")
+
+        cnt = 1
+        while True:
+            loc = self.image.match_img(run_quest)
+            if not loc:
+                loc = self.image.match_img(CLOSE)
+                self.gui.click(loc)
+                loc = self.image.match_img(run_quest)
+            self.gui.click(loc)
+
+            if (run_quest == quest_rare or run_quest == quest_emerage) and cnt == 1:
+                loc = self.image.match_img(confirm_rare)
+                self.gui.click(loc)
+
+            loc = self.image.match_img(accept_quest)
+            self.gui.click(loc)
+
+            self.select_unit(UNIT_3)
+
+            if self.is_pan_runout(from_quest=False):
+                loc = self.image.match_img(CLOSE)
+                self.gui.click(loc)
+                loc = self.image.match_img(return_top)
+                self.gui.click(loc)
+                break
+
+            time.sleep(30)
+            self.end_quest()
+
+            loc = self.image.match_img(natsupani_icon)
+            self.gui.click(loc)
+
+            loc = self.image.match_img(natsupani_screen, timeout=5)
+            if not loc:
+                loc = self.image.match_img(skip, timeout=2)
+                if loc:
+                    self.gui.click(loc)
+
+                loc = self.image.match_img(get_reword, timeout=2)
+                if loc:
+                    self.gui.click(loc)
+
+            cnt += 1
+
     def misterio(self):
         misteri_dir = "misterio\\"
         open_misterio = misteri_dir + "open_misterio.png"
@@ -797,13 +899,13 @@ class KanpaniGirls(object):
                             if self.use_food() == -1:
                                 use_food_item = False
                         else:
-                            self.round_meikyu()
+                            #self.round_meikyu()
                             pass
                     pan_max_cnt += 1
                     self.logger.info("PAN MAX: " + str(pan_max_cnt))
                     if self.stop_time == -1:
                         sys.exit()
-                self.saiyou_event()
+                self.natsupani_2()
             except ValueError:
                 print(traceback.format_exc())
                 restart_cnt += 1
