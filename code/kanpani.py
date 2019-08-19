@@ -743,8 +743,17 @@ class KanpaniGirls(object):
                 loc = self.image.match_img(confirm_rare)
                 self.gui.click(loc)
 
-            loc = self.image.match_img(accept_quest)
-            self.gui.click(loc)
+            cnt = 0
+            while True:
+                accept_que_loc = self.image.match_img(accept_quest, timeout=3)
+                if accept_que_loc:
+                    self.gui.click(accept_que_loc)
+                    break
+                if cnt > 3:
+                    raise ValueError
+                time.sleep(3)
+                self.gui.click(loc)
+                cnt += 1
 
             self.select_unit(UNIT_3)
 
