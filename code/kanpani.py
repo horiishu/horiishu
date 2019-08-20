@@ -85,7 +85,7 @@ class KanpaniGirls(object):
                 self.gui.click(loc)
                 time.sleep(3)
 
-                for i in range(30):
+                for i in range(10):
                     if self.image.match_img(QUEST, timeout=5):
                         start_game_finish = True
                         break
@@ -743,17 +743,17 @@ class KanpaniGirls(object):
                 loc = self.image.match_img(confirm_rare)
                 self.gui.click(loc)
 
-            cnt = 0
+            accept_cnt = 0
             while True:
                 accept_que_loc = self.image.match_img(accept_quest, timeout=3)
                 if accept_que_loc:
                     self.gui.click(accept_que_loc)
                     break
-                if cnt > 3:
+                if accept_cnt > 3:
                     raise ValueError
                 time.sleep(3)
                 self.gui.click(loc)
-                cnt += 1
+                accept_cnt += 1
 
             self.select_unit(UNIT_3)
 
