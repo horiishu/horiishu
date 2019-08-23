@@ -723,12 +723,13 @@ class KanpaniGirls(object):
             run_quest = quest_rare
             self.logger.info("!! Rare quest !!")
         else:
-            loc = self.image.match_img(hamushi, timeout=20)
-            if loc:
-                self.gui.click(loc)
-                loc = self.image.match_img(confirm_rare, timeout=2)
-                self.gui.click(loc)
-                self.logger.info("!! Hamushi clicked !!")
+            if run_quest != quest_kouhan:
+                loc = self.image.match_img(hamushi, timeout=20)
+                if loc:
+                    self.gui.click(loc)
+                    loc = self.image.match_img(confirm_rare, timeout=2)
+                    self.gui.click(loc)
+                    self.logger.info("!! Hamushi clicked !!")
 
         cnt = 1
         while True:
