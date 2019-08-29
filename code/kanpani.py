@@ -154,12 +154,10 @@ class KanpaniGirls(object):
             return True
         return False
 
-    def use_food(self):
-        pajapani_dir = "20190701_pajapani\\"
-        food_1 = pajapani_dir + "onigiri.png"
-        food_2 = pajapani_dir + "ramen.png"
+    def use_food(self, food_dir=''):
+        food_1 = food_dir + "food_1.png"
+        food_2 = food_dir + "food_2.png"
 
-        
         loc = self.image.match_img(ITEM)
         self.gui.click(loc)
         loc = self.image.match_img(ITEM_BIHIN, timeout=2)
@@ -768,6 +766,9 @@ class KanpaniGirls(object):
             time.sleep(30)
             self.end_quest()
 
+            if (cnt == 5 or cnt == 10) and run_quest == quest_kouhan:
+                self.use_food(natsupani_dir)
+
             loc = self.image.match_img(natsupani_icon)
             self.gui.click(loc)
 
@@ -895,7 +896,8 @@ class KanpaniGirls(object):
     def main(self):
         pan_max_cnt = 0
         restart_cnt = 0
-        use_food_item = False
+        use_food_item = True
+        food_dir = "20190818_natsupani_2\\"
         while True:
             try:
                 if not self.using_event_tickt:
@@ -906,8 +908,9 @@ class KanpaniGirls(object):
                         self.quest_saigono_shiren()
                     else:
                         if use_food_item:
-                            if self.use_food() == -1:
-                                use_food_item = False
+                            if self.use_food(food_dir) == -1:
+                                sys.exit(-1)
+                                #use_food_item = False
                         else:
                             self.round_meikyu()
                             pass
